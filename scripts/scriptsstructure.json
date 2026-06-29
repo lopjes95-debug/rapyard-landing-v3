@@ -1,0 +1,54 @@
+{
+  "apps": {
+    "mobile": {
+      "app": {
+        "(tabs)": {},
+        "battle": {},
+        "components": {},
+        "cypher": {},
+        "hooks": {},
+        "navigation": {},
+        "notifications": {},
+        "profile": {},
+        "record": {},
+        "services": {},
+        "settings": {},
+        "utils": {},
+        "AppNavigator.tsx": "export default function AppNavigator() { return null }"
+      }
+    },
+    "web": {
+      "pages": {},
+      "components": {},
+      "styles": {}
+    },
+    "admin": {
+      "pages": {},
+      "components": {}
+    }
+  },
+  "packages": {
+    "ui": {
+      "index.ts": "export * from './components';"
+    },
+    "firebase": {
+      "src": {
+        "firebase.ts": "export const init = () => {};"
+      }
+    }
+  },
+  "api": {
+    "routes": {},
+    "middleware": {}
+  },
+  "workers": {
+    "queues": {},
+    "jobs": {},
+    "worker.ts": "console.log('Worker running');"
+  },
+  "infra": {
+    "terraform": {
+      "main.tf": "terraform { required_version = \">= 1.0.0\" }"
+    }
+  }
+}

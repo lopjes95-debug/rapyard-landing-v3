@@ -1,0 +1,5 @@
+﻿{
+  "bucketName": "rapyard-bucket",
+  "region": "us-east-1",
+  "publicAccess": false
+}

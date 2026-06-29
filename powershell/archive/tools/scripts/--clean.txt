@@ -1,0 +1,1 @@
+powershell ./tools/scripts/doctor.ps1 --clean

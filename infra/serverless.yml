@@ -1,0 +1,7 @@
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  environment:
+    SUPABASE_URL: https://YOUR-PROJECT.supabase.co
+    SUPABASE_SERVICE_ROLE_KEY: ${ssm:/rapyard/supabase/service_role}

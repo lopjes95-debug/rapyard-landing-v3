@@ -1,0 +1,10 @@
+{
+  "name": "@rapyard/ui",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"UI dev server placeholder\"",
+    "build": "echo \"UI build placeholder\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

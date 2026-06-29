@@ -1,0 +1,9 @@
+{
+  "core": ["rapyard", "rapyard-core", "rapyard-monorepo"],
+  "assets": ["rapyard-assets", "rapyard-brand", "rapyard-media"],
+  "docs": ["rapyard-docs", "rapyard-guides", "rapyard-architecture"],
+  "cloud": ["rapyard-cloud", "rapyard-infra", "rapyard-terraform"],
+  "workers": ["rapyard-workers", "rapyard-queues"],
+  "lab": ["rapyard-lab", "experiments", "sandbox"],
+  "archive": ["old", "deprecated", "backup"]
+}

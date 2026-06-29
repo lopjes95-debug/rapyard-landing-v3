@@ -1,0 +1,25 @@
+service: rapyard-api
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  environment:
+    SUPABASE_URL: https://YOUR-PROJECT.supabase.co
+    SUPABASE_SERVICE_ROLE_KEY: 
+
+functions:
+  api:
+    handler: apps/api/app/main.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+
+package:
+  patterns:
+    - "apps/api/**"
+    - "!**/__pycache__/**"
+
+plugins:
+  - serverless-offline

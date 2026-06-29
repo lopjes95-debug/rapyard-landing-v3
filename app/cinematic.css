@@ -1,0 +1,46 @@
+import GateAnimation from "@/components/GateAnimation";
+
+export default function LandingPage() {
+  return (
+    <main className="cinematic-bg min-h-screen text-white flex flex-col items-center justify-center px-6 py-10 relative overflow-hidden">
+
+      <GateAnimation />
+
+      <section className="max-w-3xl text-center space-y-10 relative z-10">
+
+        <h1 className="title text-6xl font-extrabold chrome-text tracking-widest">
+          RAPYARD
+        </h1>
+
+        <p className="subtitle text-xl molten font-semibold">
+          THE FORGE IS OPEN. EVERY LEGEND STARTS AS A SPARK.
+        </p>
+
+        <div className="gate-panel panel rounded-xl p-6 space-y-4">
+          <h2 className="text-2xl font-bold">THE GATE</h2>
+          <p className="text-white/70">
+            Some are here to watch. Some are here to build. Some are here to battle.
+            Some are here to learn. Whoever you are — welcome to The Yard.
+          </p>
+        </div>
+
+        <div className="space-y-4 enter-btn">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="w-full bg-white/10 border border-white/20 rounded px-4 py-3"
+          />
+
+          <button className="w-full py-3 rounded text-lg cinematic-btn">
+            ENTER THE YARD
+          </button>
+        </div>
+
+        <p className="text-white/40 text-sm tracking-widest">
+          BLEED THA BLOCK — THIS IS ONLY THE BEGINNING
+        </p>
+
+      </section>
+    </main>
+  );
+}

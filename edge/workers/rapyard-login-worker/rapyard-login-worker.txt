@@ -1,0 +1,18 @@
+name = "rapyard-login-worker"
+main = "worker.ts"
+compatibility_date = "2026-06-12"
+
+# Bind your D1 database
+[[d1_databases]]
+binding = "DB"                # how you reference it in worker.ts (env.DB)
+database_name = "rapyard_users"
+database_id = "874fdacea1012c366e621f43ab9d5e66"
+
+# Routes (optional if you want a custom domain)
+routes = [
+  { pattern = "rapyard.club/login", custom_domain = true }
+]
+
+# Environment variables (optional)
+[vars]
+AWS_SES_ENDPOINT = "https://your-api.aws/send-login-email"

@@ -1,0 +1,10 @@
+#!/bin/sh
+echo "Checking RapYard structure..."
+node scripts/create-missing-structure.cjs
+
+if [ $? -ne 0 ]; then
+  echo "❌ Structure invalid — commit blocked"
+  exit 1
+fi
+
+echo "✔ Structure valid"
