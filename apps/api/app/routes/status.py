@@ -1,4 +1,4 @@
-from utils.cors import cors_headers
+from app.utils.cors import cors_headers
 import json
 import datetime
 

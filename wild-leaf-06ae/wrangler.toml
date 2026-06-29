@@ -1,0 +1,12 @@
+name = "wild-leaf-06ae"
+main = "src/index.ts"
+compatibility_date = "2026-06-28"
+compatibility_flags = ["nodejs_compat"]
+
+observability = { enabled = true }
+upload_source_maps = true
+
+routes = [
+  { pattern = "rapyard.club/*" },
+  { pattern = "*.rapyard.club/*" }
+]

@@ -1,0 +1,234 @@
+Write-Host "=== RapYard Landing — One‑Click Bootstrap ===" -ForegroundColor Cyan
+
+# -----------------------------
+# 1. ROOT FILES
+# -----------------------------
+@"
+{
+  "name": "rapyard-landing",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}
+"@ | Set-Content "package.json"
+
+@"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RapYard</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+"@ | Set-Content "index.html"
+
+@"
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});
+"@ | Set-Content "vite.config.ts"
+
+# -----------------------------
+# 2. CREATE FOLDERS
+# -----------------------------
+$folders = @(
+  "src",
+  "src/layers",
+  "src/styles",
+  "src/cinema",
+  "src/cinema/scenes",
+  "src/cinema/audio",
+  "src/components",
+  "src/utils",
+  "src/assets",
+  "public"
+)
+
+foreach ($f in $folders) {
+  if (-not (Test-Path $f)) {
+    New-Item -ItemType Directory -Path $f | Out-Null
+    Write-Host "Created: $f"
+  }
+}
+
+# -----------------------------
+# 3. MAIN ENTRY FILES
+# -----------------------------
+@"
+import React from "react";
+import ReactDOM from "react-dom/client";
+import CinematicRoot from "./CinematicRoot";
+import "./styles/cinematic.css";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <CinematicRoot />
+  </React.StrictMode>
+);
+"@ | Set-Content "src/main.tsx"
+
+@"
+export type ChapterId = "gate" | "yard" | "descent" | "core" | "outro";
+
+export interface ChapterConfig {
+  id: ChapterId;
+  start: number;
+  end: number;
+}
+
+export const chapters: ChapterConfig[] = [
+  { id: "gate", start: 0.0, end: 0.20 },
+  { id: "yard", start: 0.20, end: 0.45 },
+  { id: "descent", start: 0.45, end: 0.65 },
+  { id: "core", start: 0.65, end: 0.85 },
+  { id: "outro", start: 0.85, end: 1.0 }
+];
+"@ | Set-Content "src/cinema/director.ts"
+
+# -----------------------------
+# 4. CINEMATIC ROOT
+# -----------------------------
+@"
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+import { chapters } from "./cinema/director";
+
+import { gateScene } from "./cinema/scenes/gate";
+import { yardScene } from "./cinema/scenes/yard";
+import { descentScene } from "./cinema/scenes/descent";
+import { coreScene } from "./cinema/scenes/core";
+import { outroScene } from "./cinema/scenes/outro";
+
+import { loadSounds } from "./cinema/audio/sounds";
+
+import SkylineLayer from "./layers/SkylineLayer";
+import GridLayer from "./layers/GridLayer";
+import FogLayer from "./layers/FogLayer";
+import LogoLayer from "./layers/LogoLayer";
+import YardIconsLayer from "./layers/YardIconsLayer";
+import OutroTextLayer from "./layers/OutroTextLayer";
+import CTALayer from "./layers/CTALayer";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function CinematicRoot() {
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    loadSounds();
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    root.style.height = "5000px";
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: root,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.2
+      }
+    });
+
+    tl.fromTo(".camera", { yPercent: 0, scale: 1 }, { yPercent: -20, scale: 1.1 }, 0);
+
+    chapters.forEach((chapter) => {
+      const pos = chapter.start;
+
+      if (chapter.id === "gate") gateScene(tl, pos);
+      if (chapter.id === "yard") yardScene(tl, pos);
+      if (chapter.id === "descent") descentScene(tl, pos);
+      if (chapter.id === "core") coreScene(tl, pos);
+      if (chapter.id === "outro") outroScene(tl, pos);
+    });
+
+    return () => {
+      tl.kill();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  }, []);
+
+  return (
+    <div ref={rootRef} className="cinematic-root">
+      <div className="camera">
+        <SkylineLayer />
+        <GridLayer />
+        <FogLayer />
+        <LogoLayer />
+        <YardIconsLayer />
+        <OutroTextLayer />
+        <CTALayer />
+      </div>
+    </div>
+  );
+}
+"@ | Set-Content "src/CinematicRoot.tsx"
+
+# -----------------------------
+# 5. SCENE PLACEHOLDERS
+# -----------------------------
+$scenes = @("gate","yard","descent","core","outro")
+
+foreach ($scene in $scenes) {
+@"
+export function ${scene}Scene(tl, pos) {
+  tl.to(".camera", { opacity: 1 }, pos);
+}
+"@ | Set-Content "src/cinema/scenes/$scene.ts"
+}
+
+# -----------------------------
+# 6. LAYER PLACEHOLDERS
+# -----------------------------
+$layers = @(
+  "SkylineLayer",
+  "GridLayer",
+  "FogLayer",
+  "LogoLayer",
+  "YardIconsLayer",
+  "OutroTextLayer",
+  "CTALayer"
+)
+
+foreach ($layer in $layers) {
+@"
+export default function $layer() {
+  return <div className='$layer'></div>;
+}
+"@ | Set-Content "src/layers/$layer.tsx"
+}
+
+# -----------------------------
+# 7. CSS PLACEHOLDERS
+# -----------------------------
+@"
+.cinematic-root { width: 100%; height: 100vh; background: #020617; }
+.camera { position: sticky; top: 0; height: 100vh; }
+"@ | Set-Content "src/styles/cinematic.css"
+
+Write-Host "=== Bootstrap Complete. Run: npm install && npm run dev ===" -ForegroundColor Green

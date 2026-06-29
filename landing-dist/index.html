@@ -1,152 +1,291 @@
-"use client";
-
-import { useState } from "react";
-
-export default function LandingPage() {
-  const [email, setEmail] = useState("");
-
-  async function joinFounders() {
-    console.log("Founder:", email);
-  }
-
-  return (
-    <div style={styles.root}>
-      <div style={styles.overlay} />
-
-      <div style={styles.container}>
-        <h1 style={{ ...styles.chrome, ...styles.rapyard }}>RAPYARD</h1>
-
-        <p style={styles.subtitle}>THE FORGE IS BURNING.</p>
-        <p style={styles.subtitleSmall}>EVERY LEGEND STARTS AS A SPARK.</p>
-
-        <div style={styles.features}>
-          <div style={styles.feature}>BATTLES</div>
-          <div style={styles.feature}>AI STUDIO</div>
-          <div style={styles.feature}>MARKETPLACE</div>
-          <div style={styles.feature}>CREATOR ECONOMY</div>
-        </div>
-
-        <div style={styles.inputRow}>
-          <input
-            type="email"
-            placeholder="ENTER YOUR EMAIL"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-          <button onClick={joinFounders} style={styles.button}>
-            JOIN THE FOUNDERS LIST
-          </button>
-        </div>
-
-        <h2 style={{ ...styles.chrome, ...styles.footerChrome }}>
-          BLEED THA BLOCK LABEL
-        </h2>
-
-        <div style={styles.footerSmall}>COMING SOON</div>
-      </div>
-    </div>
-  );
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: #050505;
+  color: #f2f2f2;
+  overflow-x: hidden;
 }
 
-const styles = {
-  root: {
-    height: "100vh",
-    width: "100%",
-    backgroundImage: "url('/landing/rapyard-bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  overlay: {
-    position: "absolute",
-    inset: 0,
-    background: "rgba(0,0,0,0.55)",
-  },
-  container: {
-    position: "relative",
-    zIndex: 2,
-    textAlign: "center",
-    color: "#fff",
-    maxWidth: "700px",
-    padding: "20px",
-  },
+/* Forge glow */
+.forge-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center,
+    rgba(255, 120, 0, 0.55),
+    rgba(10, 5, 0, 0.95)
+  );
+  filter: blur(180px);
+  z-index: -4;
+}
 
-  // CHROME TEXT STYLE
-  chrome: {
-    fontFamily: "Impact, Anton, sans-serif",
-    fontWeight: 900,
-    background: "linear-gradient(180deg, #ffffff 0%, #d9d9d9 20%, #8a8a8a 40%, #3a3a3a 55%, #8a8a8a 70%, #ffffff 100%)",
-    WebkitBackgroundClip: "text",
-    color: "transparent",
-    textShadow:
-      "0px 2px 2px rgba(0,0,0,0.4), 0px 4px 6px rgba(0,0,0,0.6), 0px 8px 12px rgba(0,0,0,0.8)",
-    letterSpacing: "6px",
-  },
+/* Dark vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle,
+    transparent 30%,
+    rgba(0,0,0,0.9) 100%
+  );
+  z-index: -3;
+}
 
-  rapyard: {
-    fontSize: "96px",
-    marginBottom: "10px",
-  },
+/* Steel texture */
+.texture {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(255,120,0,0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,120,0,0.06) 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0.18;
+  z-index: -2;
+}
 
-  footerChrome: {
-    fontSize: "42px",
-    marginTop: "60px",
-  },
+/* Ember particles */
+.embers {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,120,0,0.4) 2px, transparent 2px);
+  background-size: 4px 4px;
+  opacity: 0.22;
+  animation: drift 16s linear infinite;
+  z-index: -1;
+}
 
-  subtitle: {
-    fontSize: "22px",
-    marginTop: "10px",
-  },
-  subtitleSmall: {
-    fontSize: "16px",
-    opacity: 0.8,
-    marginBottom: "40px",
-  },
+@keyframes drift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-300px); }
+}
 
-  features: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "40px",
-    fontSize: "14px",
-    opacity: 0.9,
-  },
-  feature: {
-    padding: "8px 12px",
-    border: "1px solid rgba(255,255,255,0.2)",
-    borderRadius: "6px",
-  },
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 100px 20px;
+  text-align: center;
+}
 
-  inputRow: {
-    display: "flex",
-    gap: "10px",
-    marginBottom: "40px",
-  },
-  input: {
-    flex: 1,
-    padding: "12px",
-    borderRadius: "6px",
-    border: "1px solid #333",
-    background: "#000",
-    color: "#fff",
-  },
-  button: {
-    padding: "12px 20px",
-    borderRadius: "6px",
-    background: "#e50914",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-    fontWeight: "bold",
-    whiteSpace: "nowrap",
-  },
+/* Metallic RAPYARD title */
+.title {
+  font-size: 5.5rem;
+  letter-spacing: 12px;
+  font-weight: 900;
+  background: linear-gradient(180deg, #e8e8e8, #7a7a7a 40%, #2a2a2a);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 50px rgba(255,120,0,0.6),
+    0 0 15px rgba(255,120,0,0.4);
+}
 
-  footerSmall: {
-    marginTop: "10px",
-    fontSize: "14px",
-    opacity: 0.7,
-  },
-};
+.subtitle {
+  font-size: 2.2rem;
+  margin-top: 20px;
+  color: #ff7a00;
+  text-shadow: 0 0 35px #ff7a00;
+}
+
+.subtitle2 {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  opacity: 0.95;
+}
+
+/* THE GATE */
+.gate h4 {
+  margin-top: 90px;
+  font-size: 1.8rem;
+  color: #ff7a00;
+  text-shadow: 0 0 25px #ff7a00;
+}
+
+.gate p {
+  margin-top: 15px;
+  line-height: 1.9;
+  opacity: 0.95;
+}
+
+/* Feature grid */
+.feature-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 90px;
+  gap: 30px;
+}
+
+.feature-card {
+  flex: 1;
+  background: rgba(255, 120, 0, 0.12);
+  padding: 35px;
+  border: 1px solid rgba(255, 120, 0, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 45px rgba(255,120,0,0.25);
+}
+
+.feature-card h4 {
+  color: #ff7a00;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px #ff7a00;
+}
+
+.icon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.icon-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255,120,0,0.25);
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(255,120,0,0.4);
+}
+
+/* Icon grid */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-item .icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* Email section */
+.email-section {
+  margin-top: 100px;
+}
+
+.email-section label {
+  display: block;
+  margin-bottom: 15px;
+  color: #ff7a00;
+  text-shadow: 0 0 20px #ff7a00;
+}
+
+.email-section input {
+  width: 80%;
+  padding: 18px;
+  border-radius: 6px;
+  border: none;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: inset 0 0 18px rgba(255,120,0,0.35);
+}
+
+.email-section button {
+  margin-top: 35px;
+  padding: 18px 45px;
+  background: linear-gradient(90deg, #ff7a00, #ff9a33);
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000;
+  transition: 0.2s;
+  box-shadow: 0 0 35px rgba(255,120,0,0.5);
+}
+
+.email-section button:hover {
+  background: #ffaa33;
+}
+
+.founder-note {
+  margin-top: 18px;
+  opacity: 0.85;
+}
+
+/* Footer */
+.footer {
+  margin-top: 120px;
+}
+
+.footer h4 {
+  color: #ff7a00;
+  font-size: 1.8rem;
+  text-shadow: 0 0 20px #ff7a00;
+}
+
+.footer p {
+  opacity: 0.85;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAPYARD — The Forge Is Open</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="forge-bg"></div>
+
+  <main class="container">
+    <h1 class="title">RAPYARD</h1>
+    <h2 class="subtitle">THE FORGE IS OPEN.</h2>
+    <h3 class="subtitle2">EVERY LEGEND STARTS AS A SPARK.</h3>
+
+    <section class="gate">
+      <h4>THE GATE</h4>
+      <p>Not everyone is here to watch.<br>
+         Some are here to build.<br>
+         Some are here to battle.<br>
+         Some are here to leave a mark.<br>
+         Welcome to The Yard.</p>
+    </section>
+
+    <section class="features">
+      <div class="feature-block">
+        <h4>FOUNDERS EDITION</h4>
+        <ul>
+          <li>RECOGNITION BOOTH</li>
+          <li>BEAT FORGE</li>
+          <li>DESIGN PORTAL</li>
+          <li>STUDIO SPOTLIGHT</li>
+        </ul>
+      </div>
+
+      <div class="feature-block">
+        <h4>BUILT FOR CREATORS</h4>
+        <ul>
+          <li>CREATE</li>
+          <li>SHARE</li>
+          <li>BATTLE</li>
+          <li>GROW</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="email-section">
+      <label>ENTER YOUR EMAIL</label>
+      <input type="email" placeholder="your@email.com" />
+      <button>ENTER THE YARD</button>
+      <p class="founder-note">Early members receive a permanent Founder badge.</p>
+      <p class="founder-count">TOTAL FOUNDERS JOINED: <span>007426</span></p>
+    </section>
+
+    <footer class="footer">
+      <h4>BLEED THA BLOCK</h4>
+      <p>THIS IS ONLY THE BEGINNING.</p>
+    </footer>
+  </main>
+</body>
+</html>
